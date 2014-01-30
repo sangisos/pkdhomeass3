@@ -7,11 +7,29 @@ EXAMPLE: preprocess "Live long and prosper!" =
 [[#"L", #"I", #"V", #"E", #"L"], [#"O", #"N", #"G", #"A", #"N"], [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
 *)
 
+fun preprocess s =
+    let
+        val charlist = List.map Char.toUpper (
+                           List.filter Char.isAlpha (explode s))
+        val padding = 4 - ((length charlist)-1) mod 5;
+        fun padd' 0 (cl:char list) = rev cl
+          | padd' n cl = padd' (n-1) (#"X"::cl)
+        fun padd cl = padd' padding (rev cl)
+        fun split [] =  []
+          | split cl = List.take(cl,5)::split(List.drop(cl,5))
+    in
+        split (padd charlist)
+    end;
+
+preprocess "Hej du gamle glade!";
+
 (* encrypt l
    TYPE: char list list -> char list list
    PRE:  l consists of lists of length exactly 5 containing only letters A-Z.
    POST: l encrypted according to specifications.
 *)
+
+fun ecrypt' [] = []
 
 (*
 decrypt l
