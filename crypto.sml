@@ -1,1 +1,15 @@
-abjfkdlsabfp
+(*
+preprocess
+*)
+
+(*
+encrypt
+*)
+
+(*
+decrypt
+*)
+
+(*
+keystream
+*)
