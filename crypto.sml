@@ -7,8 +7,10 @@ EXAMPLE: preprocess "Live long and prosper!" =
 [[#"L", #"I", #"V", #"E", #"L"], [#"O", #"N", #"G", #"A", #"N"], [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
 *)
 
-(*
-encrypt
+(* encrypt l
+   TYPE: char list list -> char list list
+   PRE:  l consists of lists of length exactly 5 containing only letters A-Z.
+   POST: l encrypted according to specifications.
 *)
 
 (*
@@ -19,7 +21,9 @@ POST: converts letters to integers
 EXAMPLE:
 *)
 
-(*
-keystream
+(* keystream n
+   TYPE: int -> char list
+   PRE:  n > 0
+   POST: the first n elements of the key stream.
 *)
 
