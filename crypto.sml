@@ -12,7 +12,9 @@ preprocess
 decrypt
 *)
 
-(*
-keystream
+(* keystream n
+   TYPE: int -> char list
+   PRE:  n > 0
+   POST: the first n elements of the key stream.
 *)
 
