@@ -21,8 +21,6 @@ fun preprocess s =
         split (padd charlist)
     end;
 
-preprocess "Hej du gamle glade!";
-
 (* encrypt l
    TYPE: char list list -> char list list
    PRE:  l consists of lists of length exactly 5 containing only letters A-Z.
