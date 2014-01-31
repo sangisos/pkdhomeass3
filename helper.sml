@@ -1,5 +1,5 @@
 
-val format = (foldl (fn (s, r) => s ^ " " ^ r) "") o map String.implode
+val format = (foldr (fn (s, r) => s ^ " " ^ r) "") o map String.implode
 
 fun fakekeystream n = 
     let val fakelist = String.explode "DWJXHYRFDGTMSHPUURXJ"  
