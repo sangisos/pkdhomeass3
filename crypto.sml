@@ -27,7 +27,7 @@ fun preprocess s =
    POST: l encrypted according to specifications.
 *)
 
-fun ecrypt' [] = []
+fun encrypt' [] = []
 
 (*
 decrypt l
