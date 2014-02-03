@@ -12,6 +12,10 @@ fun letterToNum c = ord c - ord #"A" + 1 (* A = 1 not 0, hopefully optimized at 
 
 fun numToLetter n = chr (n + ord #"A" - 1) (* A = 1 not 0, hopefully optimized at compile *)
 
+fun enDecLetter opr (x,y) = numToLetter ( ( opr (letterToNum x, letterToNum y) - 1) mod 26 + 1) (* fix for 0 = Z *)
+
+fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.concat l, fakekeystream (length l)) ))
+
 (*
 preprocess s
 TYPE: string -> char list list
@@ -39,13 +43,7 @@ fun preprocess s =
    POST: l encrypted according to specifications.
 *)
 
-fun encrypt l =
-    let
-        val plainText = List.concat l
-        fun encLetter (x,y) = numToLetter ( (letterToNum x + letterToNum y - 1) mod 26 + 1) (* fix for 0 = Z *)
-    in
-        split (List.map encLetter ( ListPair.zip (plainText, fakekeystream (length plainText)) ))
-    end;
+val encrypt = enDecrypt op+
 
 (*
 decrypt l
@@ -54,6 +52,8 @@ PRE:lists of length 5 and only containing letters A-Z
 POST: l decrypted according to specifications
 EXAMPLE:
 *)
+
+val decrypt = enDecrypt op-
 
 (* keystream n
    TYPE: int -> char list
