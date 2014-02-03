@@ -14,7 +14,7 @@ fun numToLetter n = chr (n + ord #"A" - 1) (* A = 1 not 0, hopefully optimized a
 
 fun enDecLetter opr (x,y) = numToLetter ( ( opr (letterToNum x, letterToNum y) - 1) mod 26 + 1) (* fix for 0 = Z *)
 
-fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.concat l, fakekeystream (length l)) ))
+fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.concat l, fakekeystream (length l * 5)) ))
 
 (*
 preprocess s
