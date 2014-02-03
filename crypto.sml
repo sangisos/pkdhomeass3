@@ -39,7 +39,13 @@ fun preprocess s =
    POST: l encrypted according to specifications.
 *)
 
-fun encrypt' [] = []
+fun encrypt l =
+    let
+        fun encLetter (x,y) = numToLetter ( (letterToNum x + letterToNum y - 1) mod 26 + 1) (* fix for 0 = Z *)
+        val key = split (fakekeystream(length l * 5));
+    in
+        List.map (List.map encLetter) (List.map ListPair.zip (ListPair.zip(l,key)))
+    end;
 
 (*
 decrypt l
