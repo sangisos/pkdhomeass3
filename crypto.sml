@@ -66,3 +66,8 @@ datatype card = None | Card of int | JokerA | JokerB
 fun value None = 0
   | value (Card n) = n
   | value _ = 53
+
+fun keyedDeck' 53 = [JokerA,JokerB]
+  | keyedDeck' n = Card(n)::keyedDeck'(n+1)
+val keyedDeck = keyedDeck' 1;
+
