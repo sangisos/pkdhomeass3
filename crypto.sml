@@ -1,3 +1,17 @@
+
+use "helper.sml";
+
+(* split l
+
+*)
+
+fun split [] =  []
+  | split cl = List.take(cl,5)::split(List.drop(cl,5))
+
+fun letterToNum c = ord c - ord #"A" + 1 (* A = 1 not 0, hopefully optimized at compile *)
+
+fun numToLetter n = chr (n + ord #"A" - 1) (* A = 1 not 0, hopefully optimized at compile *)
+
 (*
 preprocess s
 TYPE: string -> char list list
@@ -15,8 +29,6 @@ fun preprocess s =
         fun padd' 0 (cl:char list) = rev cl
           | padd' n cl = padd' (n-1) (#"X"::cl)
         fun padd cl = padd' padding (rev cl)
-        fun split [] =  []
-          | split cl = List.take(cl,5)::split(List.drop(cl,5))
     in
         split (padd charlist)
     end;
