@@ -94,10 +94,10 @@ fun findOutputLetter deck =
 fun keystream' deck 0 = []
   | keystream' deck n =
     let
-        val newDeck = (countCut (tripleCut (moveJokerBDownTwoCards (moveJokerADownOneCard deck))))
+        val cutDeck = (countCut (tripleCut (moveJokerBDownTwoCards (moveJokerADownOneCard deck))))
     in
-        findOutputLetter(newDeck)::(keystream' newDeck (n-1))
-        handle Joker =>  keystream' newDeck (n) (* kör hela igen utan att räkna ner n, men på nya kortleken. *)
+        findOutputLetter(cutDeck)::(keystream' cutDeck (n-1))
+        handle Joker =>  keystream' cutDeck (n) (* Do it again on the cut deck on same n. *)
     end;
 val keystream = keystream' keyedDeck;
 
