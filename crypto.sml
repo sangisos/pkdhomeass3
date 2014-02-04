@@ -70,3 +70,30 @@ fun keyedDeck' 53 = [JokerA,JokerB]
   | keyedDeck' n = Card(n)::keyedDeck'(n+1)
 val keyedDeck = keyedDeck' 1;
 
+fun moveJoker joker steps revFirst last =
+    let
+        val ll = length last
+        val first = rev revFirst
+    in
+        if steps <= ll then
+            first@(List.take(last, steps))@(joker::(List.drop(last, steps)))
+        else
+            (List.take(first, steps - ll))@(joker::(List.drop(first, steps - ll)@last))
+    end;
+
+fun moveJokerADownOneCard' revFirst (JokerA::last) = moveJoker JokerA 1 revFirst last
+  | moveJokerADownOneCard' revFirst (card::last) = moveJokerADownOneCard' (card::revFirst) last;
+val moveJokerADownOneCard = moveJokerADownOneCard' [];
+
+
+fun moveJokerBDownTwoCards' revFirst (JokerB::last) = moveJoker JokerB 2 revFirst last
+  | moveJokerBDownTwoCards' revFirst (card::last) = moveJokerBDownTwoCards' (card::revFirst) last;
+val moveJokerBDownTwoCards = moveJokerBDownTwoCards' [];
+
+fun splitDeck' buf last ((card as Card(_))::deck) = splitDeck' (card::buf) last deck
+  | splitDeck' buf last (j::deck) =
+    if null last andalso not (null buf) then
+        splitDeck' [j] (rev buf) deck
+    else
+        deck@(rev (j::buf))@last
+val splitDeck = splitDeck' [] [];
