@@ -61,10 +61,9 @@ val decrypt = enDecrypt op-
    POST: the first n elements of the key stream.
 *)
 
-datatype card = None | Card of int | JokerA | JokerB
+datatype card = Card of int | JokerA | JokerB
 
-fun value None = 0
-  | value (Card n) = n
+fun value (Card n) = n
   | value _ = 53
 
 fun keyedDeck' 53 = [JokerA,JokerB]
