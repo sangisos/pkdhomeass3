@@ -10,11 +10,7 @@ fun split [] =  []
 
 fun letterToNum c = ord c - ord #"A" + 1 (* A = 1 not 0, hopefully optimized at compile *)
 
-fun numToLetter n = chr (n + ord #"A" - 1) (* A = 1 not 0, hopefully optimized at compile *)
-
-fun enDecLetter opr (x,y) = numToLetter ( ( opr (letterToNum x, letterToNum y) - 1) mod 26 + 1) (* fix for 0 = Z *)
-
-fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.concat l, fakekeystream (length l * 5)) ))
+fun numToLetter n = chr ( (n-1) mod 26 + ord #"A") (* A = 1 not 0, hopefully optimized at compile *)
 
 (*
 preprocess s
@@ -36,24 +32,6 @@ fun preprocess s =
     in
         split (padd charlist)
     end;
-
-(* encrypt l
-   TYPE: char list list -> char list list
-   PRE:  l consists of lists of length exactly 5 containing only letters A-Z.
-   POST: l encrypted according to specifications.
-*)
-
-val encrypt = enDecrypt op+
-
-(*
-decrypt l
-TYPE: char list list -> char list list
-PRE:lists of length 5 and only containing letters A-Z
-POST: l decrypted according to specifications
-EXAMPLE:
-*)
-
-val decrypt = enDecrypt op-
 
 (* keystream n
    TYPE: int -> char list
@@ -90,13 +68,13 @@ fun moveJokerBDownTwoCards' revFirst (JokerB::last) = moveJoker JokerB 2 revFirs
   | moveJokerBDownTwoCards' revFirst (card::last) = moveJokerBDownTwoCards' (card::revFirst) last;
 val moveJokerBDownTwoCards = moveJokerBDownTwoCards' [];
 
-fun splitDeck' buf last ((card as Card(_))::deck) = splitDeck' (card::buf) last deck
-  | splitDeck' buf last (j::deck) =
+fun tripleCut' buf last ((card as Card(_))::deck) = tripleCut' (card::buf) last deck
+  | tripleCut' buf last (j::deck) =
     if null last andalso not (null buf) then
-        splitDeck' [j] (rev buf) deck
+        tripleCut' [j] (rev buf) deck
     else
         deck@(rev (j::buf))@last
-val splitDeck = splitDeck' [] [];
+val tripleCut = tripleCut' [] [];
 
 fun countCut deck =
     let
@@ -107,3 +85,42 @@ fun countCut deck =
     in
         List.take(List.drop(deck, lv), lf-1)@List.take(deck, lv)@[lc]
     end;
+
+exception Joker
+
+fun findOutputLetter deck =
+    case (List.nth (deck,value (hd deck))) (* behövs ingen fix då 0-räkning och vi ska ha kortet EFTER *)
+     of (Card n) => numToLetter n
+      | _ => raise Joker;
+
+fun keystream' deck 0 = []
+  | keystream' deck n =
+    let
+        val newDeck = (countCut (tripleCut (moveJokerBDownTwoCards (moveJokerADownOneCard deck))))
+    in
+        findOutputLetter(newDeck)::(keystream' newDeck (n-1))
+        handle Joker =>  keystream' newDeck (n) (* kör hela igen utan att räkna ner n, men på nya kortleken. *)
+    end;
+val keystream = keystream' keyedDeck;
+
+fun enDecLetter opr (x,y) = numToLetter ( ( opr (letterToNum x, letterToNum y) - 1) mod 26 + 1) (* fix for 0 = Z *)
+
+fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.concat l, keystream (length l * 5)) ))
+
+(* encrypt l
+   TYPE: char list list -> char list list
+   PRE:  l consists of lists of length exactly 5 containing only letters A-Z.
+   POST: l encrypted according to specifications.
+*)
+
+val encrypt = enDecrypt op+
+
+(*
+decrypt l
+TYPE: char list list -> char list list
+PRE:lists of length 5 and only containing letters A-Z
+POST: l decrypted according to specifications
+EXAMPLE:
+*)
+
+val decrypt = enDecrypt op-
