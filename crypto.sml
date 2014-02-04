@@ -97,3 +97,13 @@ fun splitDeck' buf last ((card as Card(_))::deck) = splitDeck' (card::buf) last 
     else
         deck@(rev (j::buf))@last
 val splitDeck = splitDeck' [] [];
+
+fun countCut deck =
+    let
+        val lc = List.last deck
+        val lv = value lc;
+        val first = List.drop(deck, lv)
+        val lf = length first
+    in
+        List.take(List.drop(deck, lv), lf-1)@List.take(deck, lv)@[lc]
+    end;
