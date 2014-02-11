@@ -4,7 +4,7 @@
 *)
 
 fun split [] =  []
-  | split cl = List.take(cl,5)::split(List.drop(cl,5))
+  | split (i1::i2::i3::i4::i5::cl) = ([i1,i2,i3,i4,i5])::split(cl)
 
 fun letterToNum c = ord c - ord #"A" + 1 (* A = 1 not 0, hopefully optimized at compile *)
 
