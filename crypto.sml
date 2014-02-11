@@ -18,18 +18,16 @@ POST: a list containg one list of every character of all the words in the string
 EXAMPLE: preprocess "Live long and prosper!" =
 [[#"L", #"I", #"V", #"E", #"L"], [#"O", #"N", #"G", #"A", #"N"], [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
 *)
-
-fun preprocess s =
-    let
-        val charlist = List.map Char.toUpper (
-                           List.filter Char.isAlpha (explode s))
-        val padding = 4 - ((length charlist)-1) mod 5;
-        fun padd' 0 (cl:char list) = rev cl
-          | padd' n cl = padd' (n-1) (#"X"::cl)
-        fun padd cl = padd' padding (rev cl)
-    in
-        split (padd charlist)
-    end;
+fun preprocess' _ [] full [] = rev full
+  | preprocess' 0 chunk full [] = rev ((rev chunk)::full)
+  | preprocess' n chunk full [] = preprocess' (n-1) (#"X"::chunk) full []
+  | preprocess' 0 chunk full cl = preprocess' 5 [] ((rev chunk)::full) cl
+  | preprocess' n chunk full (c::cl) =
+    if (Char.isAlpha c) then
+        preprocess' (n-1) ((Char.toUpper c)::chunk) full cl
+    else
+        preprocess' n chunk full cl
+fun preprocess s = preprocess' 5 [] [] (explode s)
 
 (* keystream n
    TYPE: int -> char list
