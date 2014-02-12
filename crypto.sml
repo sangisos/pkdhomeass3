@@ -10,13 +10,15 @@ fun letterToNum c = ord c - ord #"A" + 1 (* A = 1 not 0, hopefully optimized at 
 
 fun numToLetter n = chr ( (n-1) mod 26 + ord #"A") (* A = 1 not 0, hopefully optimized at compile *)
 
-(*
-preprocess s
-TYPE: string -> char list list
-PRE: the string can only contain letter A-Z and the words can be at most 5 characters.
-POST: a list containg one list of every character of all the words in the string.
-EXAMPLE: preprocess "Live long and prosper!" =
-[[#"L", #"I", #"V", #"E", #"L"], [#"O", #"N", #"G", #"A", #"N"], [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
+(* preprocess s
+   TYPE: string -> char list list
+   PRE:  true
+   POST: a list of 5 character lists containg every alpha character of the
+         string s in uppercase.
+   EXAMPLE: preprocess "Live long and prosper!" =
+      [[#"L", #"I", #"V", #"E", #"L"], [#"O", #"N", #"G", #"A", #"N"],
+         [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
+   VARIANT: s
 *)
 fun preprocess' _ [] full [] = rev full
   | preprocess' 0 chunk full [] = rev ((rev chunk)::full)
