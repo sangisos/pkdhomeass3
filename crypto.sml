@@ -116,7 +116,7 @@ val encrypt = enDecrypt op+
 (*
 decrypt l
 TYPE: char list list -> char list list
-PRE:lists of length 5 and only containing letters A-Z
+PRE:  l is a list of lists each only containing 5 characters A-Z
 POST: l decrypted according to specifications
 EXAMPLE:
 *)
