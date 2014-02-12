@@ -39,12 +39,30 @@ fun preprocess s = preprocess' 5 [] [] (explode s)
 
 datatype card = Card of int | JokerA | JokerB
 
+(*  value
+    TYPE: card -> int
+    PRE: true
+    POST: the int of a card or 53 if card is a joker
+*)
+
 fun value (Card n) = n
   | value _ = 53
+
+(*  keyedDeck' n
+    TYPE: int -> card list
+    PRE: n <= 53
+    POST: a keyed deck of cards from the card n until card 53.
+*)
 
 fun keyedDeck' 53 = [JokerA,JokerB]
   | keyedDeck' n = Card(n)::keyedDeck'(n+1)
 val keyedDeck = keyedDeck' 1;
+
+(*  moveJoker joker, steps, revFirst, last
+    TYPE: card * int * card list * card list -> card list
+    PRE: true
+    POST: A deck of cards with the joker inserted in the place steps in the list reversed revFirst concatinated with last.
+*)
 
 fun moveJoker joker steps revFirst last =
     let
@@ -57,14 +75,31 @@ fun moveJoker joker steps revFirst last =
             (List.take(first, steps - ll))@(joker::(List.drop(first, steps - ll)@last))
     end;
 
+(*  moveJokerADownOneCard' 
+    TYPE: card list -> card list
+    PRE: true
+    POST: the joker A moved one step down in a deck of cards.
+*)
+
 fun moveJokerADownOneCard' revFirst (JokerA::last) = moveJoker JokerA 1 revFirst last
   | moveJokerADownOneCard' revFirst (card::last) = moveJokerADownOneCard' (card::revFirst) last;
 val moveJokerADownOneCard = moveJokerADownOneCard' [];
 
+(*  moveJokerBDownTwoCards'
+    TYPE: card list -> card list
+    PRE: true
+    POST: the joker B moved two steps in a deck of cards.
+*)
 
 fun moveJokerBDownTwoCards' revFirst (JokerB::last) = moveJoker JokerB 2 revFirst last
   | moveJokerBDownTwoCards' revFirst (card::last) = moveJokerBDownTwoCards' (card::revFirst) last;
 val moveJokerBDownTwoCards = moveJokerBDownTwoCards' [];
+
+(*  tripleCut' buf last deck
+    TYPE: card list * card list -> card list
+    PRE: true
+    POST:
+*)
 
 fun tripleCut' buf last ((card as Card(_))::deck) = tripleCut' (card::buf) last deck
   | tripleCut' buf last (j::deck) =
