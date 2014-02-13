@@ -147,7 +147,8 @@ val tripleCut = tripleCut' [] [];
 (*  countCut deck
     TYPE: card list -> card list
     PRE: true
-    POST: 
+    POST: the deck with the bottom card's value in cards off the top of the deck,
+          moved to just above the bottom card.
 *)
 
 fun countCut deck =
@@ -157,7 +158,7 @@ fun countCut deck =
         val first = List.drop(deck, lv)
         val lf = length first
     in
-        List.take(List.drop(deck, lv), lf-1)@List.take(deck, lv)@[lc]
+        List.take(first, lf-1)@List.take(deck, lv)@[lc]
     end;
 
 exception Joker
