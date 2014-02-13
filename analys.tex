@@ -55,14 +55,22 @@ $$C(n) = 3 * \Theta(n) = \Theta(n)$$
 \section{keystream}
 
 \subsection{moveJoker}
+MoveJoker is a linear function since all the operation is linear and the function is not run recursivley.
 
 \subsection{moveJokerAOneCard and moveJokerBTwoCards}
+Both moveJokerAOneCard and moveJokerBTwoCards is linear because it only uses konstant operators until the last step, where it uses moveJoker, wich also is a linear function and therefor moveJokerAOneCard and moveJokerBTwoCards is linear.
 
 \subsection{tripleCut}
-Let n be the length of the deck. In worst case both jokers is at the end of the deck, as we have to traverse the whole deck.
+Let n be the length of the deck. In worst case senario both jokers are at the end of the deck, as we have to traverse the whole deck.
 
+The function is linear since it will only be run recursivley one time each call, accordning to theorem one.
+
+$$C(n) = C(n-1) + f(n)$$
+$$f(n) = \Theta(1)$$
+$$ C(n) = Theta(n)$$
 
 \subsection{countCut}
+CountCut is a linear function since all the operations are linear and it does not run recursivley.
 
 \subsection{keystream'}
 
