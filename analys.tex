@@ -49,11 +49,11 @@ $$C(n) = 3 * \Theta(n) = \Theta(n)$$
 
 \section{encrypt and decrypt}
 
-\subsection{enDeckLetter}
+\subsection{enDecLetter}
 enDeckLetter is a constant function since all operators and auxilliary functions are constant.
 
 \subsection{enDecrypt}
-
+Let n be the length of the total number of characters in l (length l * 5, if chunkSize is 5). enDecrypt concatinates the elements in the list l (linear to n, all the elements in the elements of l). It then calls keystream with n (linear to n), and calls List.zip on the two lists (also linear). It then maps (linear) enDecLetter (constant) on the ziped list, to finally split the list again (linear). This makes the whole function linear in relation to n.
 
 
 \section{keystream}
