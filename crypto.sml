@@ -20,16 +20,22 @@ fun numToLetter n = chr ( (n-1) mod 26 + ord #"A") (* A = 1 not 0, hopefully opt
          [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
    VARIANT: s
 *)
-fun preprocess' _ [] full [] = rev full
-  | preprocess' 0 chunk full [] = rev ((rev chunk)::full)
-  | preprocess' n chunk full [] = preprocess' (n-1) (#"X"::chunk) full []
-  | preprocess' 0 chunk full cl = preprocess' 5 [] ((rev chunk)::full) cl
-  | preprocess' n chunk full (c::cl) =
-    if (Char.isAlpha c) then
-        preprocess' (n-1) ((Char.toUpper c)::chunk) full cl
-    else
-        preprocess' n chunk full cl
-fun preprocess s = preprocess' 5 [] [] (explode s)
+
+fun preprocess s =
+    let
+        val chunkSize = 5;
+        fun preprocess' _ [] full [] = rev full
+          | preprocess' 0 chunk full [] = rev ((rev chunk)::full)
+          | preprocess' n chunk full [] = preprocess' (n-1) (#"X"::chunk) full []
+          | preprocess' 0 chunk full cl = preprocess' chunkSize [] ((rev chunk)::full) cl
+          | preprocess' n chunk full (c::cl) =
+            if (Char.isAlpha c) then
+                preprocess' (n-1) ((Char.toUpper c)::chunk) full cl
+            else
+                preprocess' n chunk full cl
+    in
+        preprocess' chunkSize [] [] (explode s)
+    end
 
 (* keystream n
    TYPE: int -> char list
