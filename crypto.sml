@@ -14,16 +14,16 @@ fun split [] =  []
 
 (*  letterToNum c
     TYPE: char -> int
-    PRE: true
-    POST: the value of c
+    PRE: #"A" <= c <= #"Z"
+    POST: the number of c in the alphabet.
 *)
 
 fun letterToNum c = ord c - ord #"A" + 1 (* A = 1 not 0, hopefully optimized at compile *)
 
 (*  numToLetter n
     TYPE: int -> char
-    PRE: true
-    POST: the char connected to the value of n.
+    PRE: n > 0
+    POST: the n:th letter of the alphabet, where n rolls around to 1 after 26.
 *)
 
 fun numToLetter n = chr ( (n-1) mod 26 + ord #"A") (* A = 1 not 0, hopefully optimized at compile *)
