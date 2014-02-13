@@ -31,9 +31,9 @@ fun numToLetter n = chr ( (n-1) mod 26 + ord #"A") (* A = 1 not 0, hopefully opt
 (* preprocess s
    TYPE: string -> char list list
    PRE:  true
-   POST: a list of 5 character lists containg every alpha character of the
-         string s in uppercase.
-   EXAMPLE: preprocess "Live long and prosper!" =
+   POST: a list of chunkSize character lists containg every alpha character of
+         the string s in uppercase.
+   EXAMPLE: With chunkSize=5 : preprocess "Live long and prosper!" =
       [[#"L", #"I", #"V", #"E", #"L"], [#"O", #"N", #"G", #"A", #"N"],
          [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
 *)
