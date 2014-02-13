@@ -53,6 +53,10 @@ $$C(n) = 3 * \Theta(n) = \Theta(n)$$
 
 
 \section{keystream}
+If we assume that the deck of cards is fixed according to the third point in complexity analysis in assignment 3 clarifications. Let n be the input in keystream.
+Keystream is a linear function because it only calls on keyedDeck, wich will be constant according to assumption. It also calls on the function keystream' wich is linear, and therefor keystream must be linear in relation to the input n.
+
+$$ \theta(n)$$
 
 \subsection{moveJoker}
 MoveJoker is a linear function since all the operation is linear and the function is not run recursivley.
@@ -76,6 +80,8 @@ CountCut is a linear function since all the operations are linear and it does no
 FindOutputLetter is a linear function since all the operators it uses is konstant except for List.nth wich is linear, and therefor in worst case senario the head of the deck is a joker.
 
 \subsection{keystream'}
+Keystream' is linear in relation to the chars it will return, and returning the chars is linear in relation to the size of the deck. But according to the third statement in your complexity analysis we can consider the number of cards fixed, and therefor returning the chars will be constant. 
 
+We can then conclude that keystream' is a linear function.
 
 \end{document}
