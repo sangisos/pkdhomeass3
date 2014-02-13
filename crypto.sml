@@ -9,7 +9,7 @@ val noOfCards = 52;
 *)
 
 fun split [] =  []
-  | split (i1::i2::i3::i4::i5::cl) = ([i1,i2,i3,i4,i5])::split(cl)
+  | split cl = List.take(cl,5)::split(List.drop(cl,5))
 
 (*  letterToNum c
     TYPE: char -> int
