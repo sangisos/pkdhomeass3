@@ -178,7 +178,7 @@ fun findOutputLetter deck =
    TYPE: int -> char list
    PRE:  n > 0
    POST: the first n elements of the key stream.
-   VARIANT: n = 0
+   VARIANT: n (even tought n does not decrease when findOutputLetter raises joker).
 *)
 
 fun keystream' deck 0 = []
