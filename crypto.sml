@@ -35,12 +35,22 @@ fun numToLetter n = chr ( (n-1) mod 26 + ord #"A") (* A = 1 not 0, hopefully opt
    EXAMPLE: preprocess "Live long and prosper!" =
       [[#"L", #"I", #"V", #"E", #"L"], [#"O", #"N", #"G", #"A", #"N"],
          [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
-   VARIANT: s
 *)
 
 fun preprocess s =
     let
         val chunkSize = 5;
+        (* preprocess' chunkSize chunk full cl
+           TYPE: int -> char list -> char list list -> char list
+                 -> char list list
+           PRE:  chunkSize > 0
+           POST: a list of 5 character lists containg every alpha
+                 character of the string s in uppercase.
+           EXAMPLE: preprocess "Live long and prosper!" =
+           [[#"L", #"I", #"V", #"E", #"L"], [#"O", #"N", #"G", #"A", #"N"],
+           [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
+           VARIANT: first cl then chunkSize
+         *)
         fun preprocess' _ [] full [] = rev full
           | preprocess' 0 chunk full [] = rev ((rev chunk)::full)
           | preprocess' n chunk full [] = preprocess' (n-1) (#"X"::chunk) full []

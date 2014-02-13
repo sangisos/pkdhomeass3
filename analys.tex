@@ -20,16 +20,19 @@
 
 
 \subsection{preprocess}
+Our preprocess is in itself constant as it only calls our auxillary function preprocess'.
+\subsubsection{preprocess'}
+Let n be the length of the list cl. The worst case is if every caracter in cl is a alpha character, and the length of cl modulus 5 is 1, as we then have to add 4 X:s.
 
+This function spends most of it's time in the fifth case, where it removes the first character c of the char list cl, checks if it is a alpha character (constant time), if it's not, recurse with the char removed from cl, else make it uppercase (constant time), add it to chunk (constant time) and removes 1 from chunkSize (constant time), then recurses on the new data.
 
+For every fifth (actually every chunkSize:th) character that is added to chunk, we enter the forth case in preprocess', where we reset the chunkSize, send a empty list as new chunk, revers the old chunk (linear to chunkSize, in this case five), and adds the reversed chunkSize to the list full (constant time).
 
+When we reach the end of cl, we add X:s, but as it is such a small part of the total it is negligible.
 
-\subsection{encrypt}
+At last the total list of chunks is reversed, liniar to the length of cl divided by chunkSize, in this case 5.
 
-
-
-
-\subsection{decrypt}
+\subsection{encrypt and decrypt}
 
 
 
