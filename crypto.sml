@@ -206,7 +206,7 @@ fun enDecLetter opr (x,y) = numToLetter ( ( opr (letterToNum x, letterToNum y) -
     POST: applies the input function opr on list l
 *)
 
-fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.concat l, keystream (length l * 5)) ))
+fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.concat l, keystream (length l * chunkSize)) ))
 
 (* encrypt l
    TYPE: char list list -> char list list
