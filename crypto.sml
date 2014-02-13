@@ -55,7 +55,7 @@ fun preprocess s =
     end
 
 (*  REPRESENTATION CONVENTION: a deck of cards with cards with a int and two jokers
-    REPRESENTATION INVARIANT: the int <= 52
+    REPRESENTATION INVARIANT: 
 *)
 
 datatype card = Card of int | JokerA | JokerB
@@ -71,9 +71,9 @@ fun value (Card n) = n
 
 (*  keyedDeck' n
     TYPE: int -> card list
-    PRE: n <= 53
+    PRE: n >= 0
     POST: a keyed deck of cards from the card n until card 53.
-    VARIANT: n = 53
+    VARIANT: n = 0
 *)
 
 fun keyedDeck' buf 0 = buf@[JokerA,JokerB]
