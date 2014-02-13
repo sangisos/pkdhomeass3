@@ -32,6 +32,24 @@ When we reach the end of cl, we add X:s, but as it is such a small part of the t
 
 At last the total list of chunks is reversed, liniar to the length of cl divided by chunkSize, in this case 5.
 
+All in all, this gives us:
+
+$$C(n) = C(n-1) + f(n)$$
+$$f(n) = \Theta(1)$$
+$$C(n) = \Theta(n)$$ for case five,
+
+
+$$C(n) = C(n - chunkSize) + f(n)$$
+$$f(n) = \Theta(chunkSize)$$
+$$C(n) = \Theta(n)$$ for case four, and
+
+$$C(n) = f(n)$$
+$$f(n) = \Theta(n/5)$$
+$$C(n) = \Theta(n/5) = \Theta(n)$$ for either of the first two cases.
+
+And thus we get the whole function:
+$$C(n) = 3 * \Theta(n) = \Theta(n)$$
+
 \subsection{encrypt and decrypt}
 
 
