@@ -10,7 +10,7 @@ val chunkSize = 5;
 *)
 
 fun split [] =  []
-  | split cl = List.take(cl,5)::split(List.drop(cl,5))
+  | split cl = List.take(cl,chunkSize)::split(List.drop(cl,chunkSize))
 
 (*  letterToNum c
     TYPE: char -> int
