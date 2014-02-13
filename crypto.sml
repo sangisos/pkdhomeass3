@@ -138,7 +138,7 @@ val moveJokerBDownTwoCards = moveJokerBDownTwoCards' [];
 
 fun tripleCut' buf last ((card as Card(_))::deck) = tripleCut' (card::buf) last deck
   | tripleCut' buf last (j::deck) =
-    if null last andalso not (null buf) then
+    if null last then
         tripleCut' [j] (rev buf) deck
     else
         deck@(rev (j::buf))@last
