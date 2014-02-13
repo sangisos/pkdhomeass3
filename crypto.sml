@@ -45,10 +45,8 @@ fun preprocess' _ [] full [] = rev full
         preprocess' n chunk full cl
 fun preprocess s = preprocess' 5 [] [] (explode s)
 
-(* keystream n
-   TYPE: int -> char list
-   PRE:  n > 0
-   POST: the first n elements of the key stream.
+(*  REPRESENTATION CONVENTION: a deck of cards with cards with a int and two jokers
+    REPRESENTATION INVARIANT: the int <= 52
 *)
 
 datatype card = Card of int | JokerA | JokerB
@@ -151,6 +149,12 @@ fun findOutputLetter deck =
     case (List.nth (deck,value (hd deck))) (* behövs ingen fix då 0-räkning och vi ska ha kortet EFTER *)
      of (Card n) => numToLetter n
       | _ => raise Joker;
+
+(* keystream n
+   TYPE: int -> char list
+   PRE:  n > 0
+   POST: the first n elements of the key stream.
+*)
 
 fun keystream' deck 0 = []
   | keystream' deck n =
