@@ -1,4 +1,6 @@
 
+val noOfCards = 52;
+
 (* split l
    TYPE: a' list -> a' list
    PRE: true
@@ -64,7 +66,7 @@ datatype card = Card of int | JokerA | JokerB
 *)
 
 fun value (Card n) = n
-  | value _ = 53
+  | value _ = noOfCards+1
 
 (*  keyedDeck' n
     TYPE: int -> card list
@@ -72,9 +74,9 @@ fun value (Card n) = n
     POST: a keyed deck of cards from the card n until card 53.
 *)
 
-fun keyedDeck' 53 = [JokerA,JokerB]
-  | keyedDeck' n = Card(n)::keyedDeck'(n+1)
-val keyedDeck = keyedDeck' 1;
+fun keyedDeck' buf 0 = buf@[JokerA,JokerB]
+  | keyedDeck' buf n = keyedDeck' ((Card(n))::buf) (n-1)
+val keyedDeck = keyedDeck' [] noOfCards;
 
 (*  moveJoker joker, steps, revFirst, last
     TYPE: fn: 'a -> int -> 'a list -> 'a list -> 'a list
