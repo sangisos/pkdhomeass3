@@ -1,4 +1,6 @@
 
+val noOfCards = 52;
+
 (* split l
    TYPE: a' list -> a' list
    PRE: true
@@ -35,16 +37,22 @@ fun numToLetter n = chr ( (n-1) mod 26 + ord #"A") (* A = 1 not 0, hopefully opt
          [#"D", #"P", #"R", #"O", #"S"], [#"P", #"E", #"R", #"X", #"X"]]
    VARIANT: s
 *)
-fun preprocess' _ [] full [] = rev full
-  | preprocess' 0 chunk full [] = rev ((rev chunk)::full)
-  | preprocess' n chunk full [] = preprocess' (n-1) (#"X"::chunk) full []
-  | preprocess' 0 chunk full cl = preprocess' 5 [] ((rev chunk)::full) cl
-  | preprocess' n chunk full (c::cl) =
-    if (Char.isAlpha c) then
-        preprocess' (n-1) ((Char.toUpper c)::chunk) full cl
-    else
-        preprocess' n chunk full cl
-fun preprocess s = preprocess' 5 [] [] (explode s)
+
+fun preprocess s =
+    let
+        val chunkSize = 5;
+        fun preprocess' _ [] full [] = rev full
+          | preprocess' 0 chunk full [] = rev ((rev chunk)::full)
+          | preprocess' n chunk full [] = preprocess' (n-1) (#"X"::chunk) full []
+          | preprocess' 0 chunk full cl = preprocess' chunkSize [] ((rev chunk)::full) cl
+          | preprocess' n chunk full (c::cl) =
+            if (Char.isAlpha c) then
+                preprocess' (n-1) ((Char.toUpper c)::chunk) full cl
+            else
+                preprocess' n chunk full cl
+    in
+        preprocess' chunkSize [] [] (explode s)
+    end
 
 (*  REPRESENTATION CONVENTION: a deck of cards with cards with a int and two jokers
     REPRESENTATION INVARIANT: the int <= 52
@@ -59,7 +67,7 @@ datatype card = Card of int | JokerA | JokerB
 *)
 
 fun value (Card n) = n
-  | value _ = 53
+  | value _ = noOfCards+1
 
 (*  keyedDeck' n
     TYPE: int -> card list
@@ -68,9 +76,9 @@ fun value (Card n) = n
     VARIANT: n = 53
 *)
 
-fun keyedDeck' 53 = [JokerA,JokerB]
-  | keyedDeck' n = Card(n)::keyedDeck'(n+1)
-val keyedDeck = keyedDeck' 1;
+fun keyedDeck' buf 0 = buf@[JokerA,JokerB]
+  | keyedDeck' buf n = keyedDeck' ((Card(n))::buf) (n-1)
+val keyedDeck = keyedDeck' [] noOfCards;
 
 (*  moveJoker joker, steps, revFirst, last
     TYPE: fn: 'a -> int -> 'a list -> 'a list -> 'a list
