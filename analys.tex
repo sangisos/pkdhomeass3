@@ -17,7 +17,8 @@
 
 
 \section{preprocess}
-Our preprocess is in itself constant as it only calls our auxillary function preprocess'.
+Our preprocess is linear as it only calls our auxillary function preprocess'.
+
 \subsection{preprocess'}
 Let n be the length of the list cl. The worst case is if every caracter in cl is a alpha character, and the length of cl modulus 5 is 1, as we then have to add 4 X:s.
 
@@ -48,6 +49,7 @@ And thus we get the whole function:
 $$C(n) = 3 * \Theta(n) = \Theta(n)$$
 
 \section{encrypt and decrypt}
+Both encrypt and decryp have the same time complexity as enDecrypt since both functions only call enDecrypt with an operation.
 
 \subsection{enDeckLetter}
 enDeckLetter is a constant function since all operators and auxilliary functions are constant.
