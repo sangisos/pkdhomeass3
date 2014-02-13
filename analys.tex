@@ -17,10 +17,10 @@
 
 
 \section{preprocess}
-Our preprocess is linear as it only calls our auxillary function preprocess'.
+Our preprocess is linear as it only calls our auxiliary function preprocess'.
 
 \subsection{preprocess'}
-Let n be the length of the list cl. The worst case is if every caracter in cl is a alpha character, and the length of cl modulus 5 is 1, as we then have to add 4 X:s.
+Let n be the length of the list cl. The worst case is if every character in cl is a alpha character, and the length of cl modulus 5 is 1, as we then have to add 4 X:s.
 
 This function spends most of it's time in the fifth case, where it removes the first character c of the char list cl, checks if it is a alpha character (constant time), if it's not, recurse with the char removed from cl, else make it uppercase (constant time), add it to chunk (constant time) and removes 1 from chunkSize (constant time), then recurses on the new data.
 
@@ -28,7 +28,7 @@ For every fifth (actually every chunkSize:th) character that is added to chunk, 
 
 When we reach the end of cl, we add X:s, but as it is such a small part of the total it is negligible.
 
-At last the total list of chunks is reversed, liniar to the length of cl divided by chunkSize, in this case 5.
+At last the total list of chunks is reversed, linear to the length of cl divided by chunkSize, in this case 5.
 
 All in all, this gives us:
 
@@ -52,38 +52,38 @@ $$C(n) = 3 * \Theta(n) = \Theta(n)$$
 Both encrypt and decrypt have the same time complexity as enDecrypt since both functions only call enDecrypt with an operation.
 
 \subsection{enDecLetter}
-enDeckLetter is a constant function since all operators and auxilliary functions are constant.
+enDeckLetter is a constant function since all operators and auxiliary functions are constant.
 
 \subsection{enDecrypt}
-Let n be the length of the total number of characters in l (length l * 5, if chunkSize is 5). enDecrypt concatinates the elements in the list l (linear to n, all the elements in the elements of l). It then calls keystream with n (linear to n), and calls List.zip on the two lists (also linear). It then maps (linear) enDecLetter (constant) on the ziped list, to finally split the list again (linear). This makes the whole function linear in relation to n.
+Let n be the length of the total number of characters in l (length l * 5, if chunkSize is 5). enDecrypt concatenates the elements in the list l (linear to n, all the elements in the elements of l). It then calls keystream with n (linear to n), and calls List.zip on the two lists (also linear). It then maps (linear) enDecLetter (constant) on the zipped list, to finally split the list again (linear). This makes the whole function linear in relation to n.
 
 
 \section{keystream}
 If we assume that the deck of cards is fixed according to the third point in complexity analysis in assignment 3 clarifications. Let n be the input in keystream.
-Keystream is a linear function because it only calls on keyedDeck, wich will be constant according to assumption. It also calls on the function keystream' wich is linear, and therefor keystream must be linear in relation to the input n.
+Keystream is a linear function because it only calls on keyedDeck, which will be constant according to assumption. It also calls on the function keystream' which is linear, and therefor keystream must be linear in relation to the input n.
 
 $$ \theta(n)$$
 
 \subsection{moveJoker}
-MoveJoker is a linear function since all the operation is linear and the function is not run recursivley.
+MoveJoker is a linear function since all the operation is linear and the function is not run recursively.
 
 \subsection{moveJokerAOneCard and moveJokerBTwoCards}
-Both moveJokerAOneCard and moveJokerBTwoCards is linear because it only uses konstant operators until the last step, where it uses moveJoker, wich also is a linear function and therefor moveJokerAOneCard and moveJokerBTwoCards is linear.
+Both moveJokerAOneCard and moveJokerBTwoCards is linear because it only uses constant operators until the last step, where it uses moveJoker, which also is a linear function and therefor moveJokerAOneCard and moveJokerBTwoCards is linear.
 
 \subsection{tripleCut}
-Let n be the length of the deck. In worst case senario both jokers are at the end of the deck, as we have to traverse the whole deck.
+Let n be the length of the deck. In worst case scenario both jokers are at the end of the deck, as we have to traverse the whole deck.
 
-The function is linear since it will only be run recursivley one time each call, accordning to theorem one.
+The function is linear since it will only be run recursively one time each call, according to theorem one.
 
 $$C(n) = C(n-1) + f(n)$$
 $$f(n) = \Theta(1)$$
 $$ C(n) = Theta(n)$$
 
 \subsection{countCut}
-CountCut is a linear function since all the operations are linear and it does not run recursivley.
+CountCut is a linear function since all the operations are linear and it does not run recursively.
 
 \subsection{findOutputLetter}
-FindOutputLetter is a linear function since all the operators it uses is konstant except for List.nth wich is linear, and therefor in worst case senario the head of the deck is a joker.
+FindOutputLetter is a linear function since all the operators it uses is constant except for List.nth which is linear, and therefor in worst case scenario the head of the deck is a joker.
 
 \subsection{keystream'}
 Keystream' is linear in relation to the chars it will return, and returning the chars is linear in relation to the size of the deck. But according to the third statement in your complexity analysis we can consider the number of cards fixed, and therefor returning the chars will be constant. 
