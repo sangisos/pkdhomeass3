@@ -8,20 +8,17 @@
 \usepackage{mathtools}
 \usepackage[parfill]{parskip}
 
-\title{Analysis of rectangles and quadtrees}
+\title{Time complexity analasys of card cryptology functions}
 \author{Anna Normark, 940319-1308 and Alexander Andersson, 860616-1530}
 
 \begin{document}
 \maketitle
 
-\section{Time complexity}
 
 
-
-
-\subsection{preprocess}
+\section{preprocess}
 Our preprocess is in itself constant as it only calls our auxillary function preprocess'.
-\subsubsection{preprocess'}
+\subsection{preprocess'}
 Let n be the length of the list cl. The worst case is if every caracter in cl is a alpha character, and the length of cl modulus 5 is 1, as we then have to add 4 X:s.
 
 This function spends most of it's time in the fifth case, where it removes the first character c of the char list cl, checks if it is a alpha character (constant time), if it's not, recurse with the char removed from cl, else make it uppercase (constant time), add it to chunk (constant time) and removes 1 from chunkSize (constant time), then recurses on the new data.
@@ -50,14 +47,21 @@ $$C(n) = \Theta(n/5) = \Theta(n)$$ for either of the first two cases.
 And thus we get the whole function:
 $$C(n) = 3 * \Theta(n) = \Theta(n)$$
 
-\subsection{encrypt and decrypt}
+\section{encrypt and decrypt}
 
 
 
 
-\subsection{keystream}
+\section{keystream}
 
+\subsection{moveJoker}
 
+\subsection{moveJokerAOneCard and moveJokerBTwoCards}
 
+\subsection{tripleCut}
+
+\subsection{countCut}
+
+\subsection{keystream'}
 
 \end{document}
