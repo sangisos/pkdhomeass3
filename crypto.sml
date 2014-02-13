@@ -73,7 +73,7 @@ fun keyedDeck' 53 = [JokerA,JokerB]
 val keyedDeck = keyedDeck' 1;
 
 (*  moveJoker joker, steps, revFirst, last
-    TYPE: card * int * card list * card list -> card list
+    TYPE: fn: 'a -> int -> 'a list -> 'a list -> 'a list
     PRE: true
     POST: A deck of cards with the joker inserted in the place steps in the list reversed revFirst concatinated with last.
 *)
@@ -110,7 +110,7 @@ fun moveJokerBDownTwoCards' revFirst (JokerB::last) = moveJoker JokerB 2 revFirs
 val moveJokerBDownTwoCards = moveJokerBDownTwoCards' [];
 
 (*  tripleCut' buf last deck
-    TYPE: card list * card list -> card list
+    TYPE: fn: card list -> card list -> card list -> card list
     PRE: true
     POST:
 *)
