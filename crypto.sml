@@ -166,18 +166,18 @@ fun keystream' deck 0 = []
     end;
 val keystream = keystream' keyedDeck;
 
-(*  enDecLetter
+(*  enDecLetter opr (x,y)
     TYPE: fn: (int * int -> int) -> char * char -> char
-    PRE:
-    POST:
+    PRE: true
+    POST: applies the input function opr on x,y
 *)
 
 fun enDecLetter opr (x,y) = numToLetter ( ( opr (letterToNum x, letterToNum y) - 1) mod 26 + 1) (* fix for 0 = Z *)
 
-(*  enDecrypt
+(*  enDecrypt opr l
     TYPE: fn: (int * int -> int) -> char list list -> char list list
-    PRE: 
-    POST:
+    PRE: true
+    POST: applies the input function opr on list l
 *)
 
 fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.concat l, keystream (length l * 5)) ))
