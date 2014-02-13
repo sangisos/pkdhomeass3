@@ -1,5 +1,6 @@
 
 val noOfCards = 52;
+val chunkSize = 5;
 
 (* split l
    TYPE: a' list -> a' list
@@ -39,7 +40,6 @@ fun numToLetter n = chr ( (n-1) mod 26 + ord #"A") (* A = 1 not 0, hopefully opt
 
 fun preprocess s =
     let
-        val chunkSize = 5;
         (* preprocess' chunkSize chunk full cl
            TYPE: int -> char list -> char list list -> char list
                  -> char list list
