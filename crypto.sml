@@ -3,6 +3,7 @@
    TYPE: a' list -> a' list
    PRE: true
    POST: a list splitted in in several lists of five elements.
+   VARIANT: length l
 *)
 
 fun split [] =  []
@@ -64,6 +65,7 @@ fun value (Card n) = n
     TYPE: int -> card list
     PRE: n <= 53
     POST: a keyed deck of cards from the card n until card 53.
+    VARIANT: n = 53
 *)
 
 fun keyedDeck' 53 = [JokerA,JokerB]
@@ -87,20 +89,22 @@ fun moveJoker joker steps revFirst last =
             (List.take(first, steps - ll))@(joker::(List.drop(first, steps - ll)@last))
     end;
 
-(*  moveJokerADownOneCard' 
+(*  moveJokerADownOneCard' l
     TYPE: card list -> card list
     PRE: true
     POST: the joker A moved one step down in a deck of cards.
+    VARIANT: JokerA in list l
 *)
 
 fun moveJokerADownOneCard' revFirst (JokerA::last) = moveJoker JokerA 1 revFirst last
   | moveJokerADownOneCard' revFirst (card::last) = moveJokerADownOneCard' (card::revFirst) last;
 val moveJokerADownOneCard = moveJokerADownOneCard' [];
 
-(*  moveJokerBDownTwoCards'
+(*  moveJokerBDownTwoCards' l
     TYPE: card list -> card list
     PRE: true
     POST: the joker B moved two steps in a deck of cards.
+    VARIANT: JokerB in list l
 *)
 
 fun moveJokerBDownTwoCards' revFirst (JokerB::last) = moveJoker JokerB 2 revFirst last
@@ -111,6 +115,7 @@ val moveJokerBDownTwoCards = moveJokerBDownTwoCards' [];
     TYPE: fn: card list -> card list -> card list -> card list
     PRE: true
     POST:
+    VARIANT:
 *)
 
 fun tripleCut' buf last ((card as Card(_))::deck) = tripleCut' (card::buf) last deck
@@ -154,6 +159,7 @@ fun findOutputLetter deck =
    TYPE: int -> char list
    PRE:  n > 0
    POST: the first n elements of the key stream.
+   VARIANT: n = 0
 *)
 
 fun keystream' deck 0 = []
