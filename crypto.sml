@@ -1,12 +1,26 @@
 
 (* split l
-
+   TYPE: a' list -> a' list
+   PRE: true
+   POST: a list splitted in in several lists of five elements.
 *)
 
 fun split [] =  []
   | split (i1::i2::i3::i4::i5::cl) = ([i1,i2,i3,i4,i5])::split(cl)
 
+(*  letterToNum c
+    TYPE: char -> int
+    PRE: true
+    POST: the value of c
+*)
+
 fun letterToNum c = ord c - ord #"A" + 1 (* A = 1 not 0, hopefully optimized at compile *)
+
+(*  numToLetter n
+    TYPE: int -> char
+    PRE: true
+    POST: the char connected to the value of n.
+*)
 
 fun numToLetter n = chr ( (n-1) mod 26 + ord #"A") (* A = 1 not 0, hopefully optimized at compile *)
 
@@ -37,10 +51,8 @@ fun preprocess s =
         preprocess' chunkSize [] [] (explode s)
     end
 
-(* keystream n
-   TYPE: int -> char list
-   PRE:  n > 0
-   POST: the first n elements of the key stream.
+(*  REPRESENTATION CONVENTION: a deck of cards with cards with a int and two jokers
+    REPRESENTATION INVARIANT: the int <= 52
 *)
 
 datatype card = Card of int | JokerA | JokerB
@@ -65,7 +77,7 @@ fun keyedDeck' 53 = [JokerA,JokerB]
 val keyedDeck = keyedDeck' 1;
 
 (*  moveJoker joker, steps, revFirst, last
-    TYPE: card * int * card list * card list -> card list
+    TYPE: fn: 'a -> int -> 'a list -> 'a list -> 'a list
     PRE: true
     POST: A deck of cards with the joker inserted in the place steps in the list reversed revFirst concatinated with last.
 *)
@@ -102,7 +114,7 @@ fun moveJokerBDownTwoCards' revFirst (JokerB::last) = moveJoker JokerB 2 revFirs
 val moveJokerBDownTwoCards = moveJokerBDownTwoCards' [];
 
 (*  tripleCut' buf last deck
-    TYPE: card list * card list -> card list
+    TYPE: fn: card list -> card list -> card list -> card list
     PRE: true
     POST:
 *)
@@ -114,6 +126,12 @@ fun tripleCut' buf last ((card as Card(_))::deck) = tripleCut' (card::buf) last 
     else
         deck@(rev (j::buf))@last
 val tripleCut = tripleCut' [] [];
+
+(*  countCut deck
+    TYPE: card list -> card list
+    PRE: true
+    POST: 
+*)
 
 fun countCut deck =
     let
@@ -127,10 +145,22 @@ fun countCut deck =
 
 exception Joker
 
+(* findOutputLetter deck
+   TYPE: card list -> char
+   PRE: true
+   POST: 
+*)
+
 fun findOutputLetter deck =
     case (List.nth (deck,value (hd deck))) (* behövs ingen fix då 0-räkning och vi ska ha kortet EFTER *)
      of (Card n) => numToLetter n
       | _ => raise Joker;
+
+(* keystream n
+   TYPE: int -> char list
+   PRE:  n > 0
+   POST: the first n elements of the key stream.
+*)
 
 fun keystream' deck 0 = []
   | keystream' deck n =
@@ -142,7 +172,19 @@ fun keystream' deck 0 = []
     end;
 val keystream = keystream' keyedDeck;
 
+(*  enDecLetter opr (x,y)
+    TYPE: fn: (int * int -> int) -> char * char -> char
+    PRE: true
+    POST: applies the input function opr on x,y
+*)
+
 fun enDecLetter opr (x,y) = numToLetter ( ( opr (letterToNum x, letterToNum y) - 1) mod 26 + 1) (* fix for 0 = Z *)
+
+(*  enDecrypt opr l
+    TYPE: fn: (int * int -> int) -> char list list -> char list list
+    PRE: true
+    POST: applies the input function opr on list l
+*)
 
 fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.concat l, keystream (length l * 5)) ))
 
@@ -154,12 +196,11 @@ fun enDecrypt opr l = split (List.map (enDecLetter opr) ( ListPair.zip (List.con
 
 val encrypt = enDecrypt op+
 
-(*
-decrypt l
-TYPE: char list list -> char list list
-PRE:  l is a list of lists each only containing 5 characters A-Z
-POST: l decrypted according to specifications
-EXAMPLE:
+(*  decrypt l
+    TYPE: char list list -> char list list
+    PRE:  l is a list of lists each only containing 5 characters A-Z
+    POST: l decrypted according to specifications
+    EXAMPLE:
 *)
 
 val decrypt = enDecrypt op-
