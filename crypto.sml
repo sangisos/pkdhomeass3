@@ -147,7 +147,7 @@ exception Joker
 (* findOutputLetter deck
    TYPE: card list -> char
    PRE: true
-   POST: 
+   POST: the value of the card at the place of the value of the top card in deck deck
 *)
 
 fun findOutputLetter deck =
