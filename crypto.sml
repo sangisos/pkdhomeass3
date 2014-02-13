@@ -5,7 +5,7 @@ val chunkSize = 5;
 (* split l
    TYPE: a' list -> a' list
    PRE: true
-   POST: a list splitted in in several lists of five elements.
+   POST: a list splitted in in several lists of chunkSize elements.
    VARIANT: length l
 *)
 
