@@ -107,11 +107,11 @@ fun moveJoker joker steps revFirst last =
             (List.take(first, steps - ll))@(joker::(List.drop(first, steps - ll)@last))
     end;
 
-(*  moveJokerADownOneCard' l
-    TYPE: card list -> card list
+(*  moveJokerADownOneCard' revFirst l
+    TYPE: card list -> card list -> card list
     PRE: true
     POST: the joker A moved one step down in a deck of cards.
-    VARIANT: JokerA in list l
+    VARIANT: length l
 *)
 
 fun moveJokerADownOneCard' revFirst (JokerA::last) = moveJoker JokerA 1 revFirst last
