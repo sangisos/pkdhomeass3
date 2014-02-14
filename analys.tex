@@ -102,7 +102,9 @@ keystream' is linear in relation to the chars n it will return, and returning ea
 
 $$C(0) = \Theta(1)$$
 $$C(n) = C(n-1) + f(n)$$
-$$f(n) = \Theta(m) = \Theta(1)$$
-We can then conclude that keystream' is a linear function.
+$$f(n) = \Theta(m)$$
+We can then conclude that keystream' is a function of complexity.
+$$C(n) = \Theta(n*m)$$
+If we see m as constant, keystream' is a linear function.
 $$C(n) = \Theta(n)$$
 \end{document}
