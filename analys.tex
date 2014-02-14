@@ -55,29 +55,41 @@ Both encrypt and decrypt have the same time complexity as enDecrypt since both f
 enDeckLetter is a constant function since all operators and auxiliary functions are constant.
 
 \subsection{enDecrypt}
-Let n be the length of the total number of characters in l (length l * 5, if chunkSize is 5). enDecrypt concatenates the elements in the list l (linear to n, all the elements in the elements of l). It then calls keystream with n (linear to n), and calls List.zip on the two lists (also linear). It then maps (linear) enDecLetter (constant) on the zipped list, to finally split the list again (linear). This makes the whole function linear in relation to n.
+Let n be the length of the total number of characters in l (length l * chunkSize). We assume the deck of cards to be of constant size.
 
+enDecrypt calls keystream with n (linear to n), and calls split (linear to n) on the result. It then calls ListPair.map (linear on chunkSize) with enDecLetter (constant) on each chunk of each list l and the split keystream, which it gets from calling ListPair.map (linear on l) on the list l and the split keystream. This makes the whole function linear in relation to n.
+
+$$C(n) = \Theta(\text{length l}*\text{chunkSize}) + \Theta(n) + \Theta(n) = 3 * \Theta(n) = \Theta(n)$$
 
 \section{keystream}
-If we assume that the deck of cards is fixed according to the third point in complexity analysis in assignment 3 clarifications. Let n be the input in keystream.
-Keystream is a linear function because it only calls on keyedDeck, which will be constant according to assumption. It also calls on the function keystream' which is linear, and therefor keystream must be linear in relation to the input n.
+If we assume that the deck of cards is fixed according to the third point in complexity analysis in assignment 3 clarifications. Let n be the argument to keystream.
+keystream is a linear function because it uses keyedDeck, which will be constant according to assumption, and calls the function keystream' with n which is linear to n, and therefor keystream is linear in relation to n.
 
-$$ \theta(n)$$
+$$C(n) = \Theta(n) + \Theta(1) = \Theta(n)$$
 
 \subsection{moveJoker}
-MoveJoker is a linear function since all the operation is linear and the function is not run recursively.
+MoveJoker is a linear function since all the operations are linear and the function is not run recursively.
 
 \subsection{moveJokerAOneCard and moveJokerBTwoCards}
-Both moveJokerAOneCard and moveJokerBTwoCards is linear because it only uses constant operators until the last step, where it uses moveJoker, which also is a linear function and therefor moveJokerAOneCard and moveJokerBTwoCards is linear.
+Let m be the number of cards before the searched joker. In worst case the joker is the last card and m is the number of cards-1.
+Both moveJokerAOneCard and moveJokerBTwoCards is linear because it only uses constant operators recursively until the last step, where it uses moveJoker, which also is a linear function and therefor moveJokerAOneCard and moveJokerBTwoCards is linear.
+
+$$C(0) = \Theta(m)$$
+$$C(m) = C(m-1) + f(m)$$
+$$f(m) = \Theta(1)$$
+Which through Theorem 1 gives us the closed form
+$$C(m) = \Theta(m) + \Theta(m) = \Theta(m)$$
 
 \subsection{tripleCut}
-Let n be the length of the deck. In worst case scenario both jokers are at the end of the deck, as we have to traverse the whole deck.
+Let m be the length of the deck. In worst case scenario both jokers are at the end of the deck, as we then have to traverse the whole deck.
 
-The function is linear since it will only be run recursively one time each call, according to theorem one.
+The function is linear since it will only be run recursively one time each call, according to Theorem 1.
 
+$$C(0) = C(n-1) + f(n)$$
 $$C(n) = C(n-1) + f(n)$$
 $$f(n) = \Theta(1)$$
-$$ C(n) = Theta(n)$$
+Which through Theorem 1 gives us the closed form
+$$C(n) = \Theta(n)$$
 
 \subsection{countCut}
 CountCut is a linear function since all the operations are linear and it does not run recursively.
@@ -86,8 +98,11 @@ CountCut is a linear function since all the operations are linear and it does no
 FindOutputLetter is a linear function since all the operators it uses is constant except for List.nth which is linear, and therefor in worst case scenario the head of the deck is a joker.
 
 \subsection{keystream'}
-Keystream' is linear in relation to the chars it will return, and returning the chars is linear in relation to the size of the deck. But according to the third statement in your complexity analysis we can consider the number of cards fixed, and therefor returning the chars will be constant. 
+keystream' is linear in relation to the chars n it will return, and returning each char is linear in relation to the size of the deck m. But according to the third statement in complexity analysis of assignment3 clarifications we can consider the number of cards fixed, and therefor returning each char will be constant. We also make the simplification of not counting the times we hit a joker and have to recalculate the current char (this happens 419 times while getting 10000 characters, less then 5\% of the times).
 
+$$C(0) = \Theta(1)$$
+$$C(n) = C(n-1) + f(n)$$
+$$f(n) = \Theta(m) = \Theta(1)$$
 We can then conclude that keystream' is a linear function.
-
+$$C(n) = \Theta(n)$$
 \end{document}
