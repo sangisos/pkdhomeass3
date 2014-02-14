@@ -92,8 +92,11 @@ val keyedDeck = keyedDeck' [] noOfCards;
 
 (*  moveJoker joker, steps, revFirst, last
     TYPE: fn: 'a -> int -> 'a list -> 'a list -> 'a list
-    PRE: true
-    POST: A deck of cards with the joker inserted in the place steps in the list reversed revFirst concatinated with last.
+    PRE:  0 < steps <= noOfCards+1
+    POST: A deck of cards with joker moved from the gap between reversed
+          revFirst and last, to steps cards down in the deck consisting of the
+          reversed revFirst concatenated with last. joker will cycle around to
+          the top of reversed revFirst after the end of last.
 *)
 
 fun moveJoker joker steps revFirst last =
