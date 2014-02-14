@@ -102,7 +102,7 @@ fun moveJoker joker steps revFirst last =
         val first = rev revFirst
     in
         if steps <= ll then
-            first@(List.take(last, steps))@(joker::(List.drop(last, steps)))
+            first@((List.take(last, steps))@(joker::(List.drop(last, steps))))
         else
             (List.take(first, steps - ll))@(joker::(List.drop(first, steps - ll)@last))
     end;
