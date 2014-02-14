@@ -132,20 +132,20 @@ fun moveJokerBDownTwoCards' revFirst (JokerB::last) = moveJoker JokerB 2 revFirs
   | moveJokerBDownTwoCards' revFirst (card::last) = moveJokerBDownTwoCards' (card::revFirst) last;
 val moveJokerBDownTwoCards = moveJokerBDownTwoCards' [];
 
-(*  tripleCut' buf last deck
-    TYPE: fn: card list -> card list -> card list -> card list
-    PRE: true
-    POST:
-    VARIANT:
+(*  tripleCut' last joker1 middle first
+    TYPE: fn: card list -> card list -> card list -> card list -> card list
+    PRE:  if the first joker in the deck is in joker1, first is a deck with one
+          joker else first is a deck with two jokers.
+    POST: the deck first@joker1@(rev middle)@(rev last) with all cards on top
+          of first joker swapped with all cards below second joker.
+    VARIANT: first
 *)
 
-fun tripleCut' buf last ((card as Card(_))::deck) = tripleCut' (card::buf) last deck
-  | tripleCut' buf last (j::deck) =
-    if null last andalso not (null buf) then
-        tripleCut' [j] (rev buf) deck
-    else
-        deck@(rev (j::buf))@last
-val tripleCut = tripleCut' [] [];
+fun tripleCut' last [] [] ((card as (Card _))::first) = tripleCut' (card::last) [] [] first
+  | tripleCut' last [] [] (joker::first) = tripleCut' last [joker] [] first
+  | tripleCut' last joker1 middle ((card as (Card _))::first) = tripleCut' last joker1 (card::middle) first
+  | tripleCut' last [joker1] middle (joker::first) = first@((joker1::(rev middle))@(joker::(rev last)))
+val tripleCut = tripleCut' [] [] [];
 
 (*  countCut deck
     TYPE: card list -> card list
