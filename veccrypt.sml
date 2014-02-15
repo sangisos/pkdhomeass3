@@ -105,21 +105,18 @@ val keyedDeck = ref (Vector.tabulate (noOfCards+3,fn x => ref (Card x)));
          the top of reversed revFirst after the end of last.
 *)
 
-fun cardTup n = (Vector.sub(!keyedDeck,n),n)
-            handle Subscript => (ref Null,n)
+fun vs n = Vector.sub(!keyedDeck,n)
+    handle Subscript => ref Null;
 
-val firstCard = cardTup(1)
-val secondCard = cardTup(2)
-val cardBeforeJoker1 = cardTup(noOfCards)
-val joker1 = cardTup(noOfCards+1)
-val cardAfterJoker1 = cardTup(noOfCards+2)
-val card2AfterJoker1 = cardTup(noOfCards+3)
-val cardBeforeJoker2 = cardTup(noOfCards+1)
-val joker2 = cardTup(noOfCards+2)
-val cardAfterJoker2 = cardTup(noOfCards+3)
-val card2AfterJoker2 = cardTup(noOfCards+4)
-val secondToLastCard = cardTup(noOfCards+1)
-val lastCard = cardTup(noOfCards+2)
+fun cardTup n = (n,vs n)
+
+datatype cardPositions = FirstCard | SecondCard | CardBeforeJoker1
+                       | Joker1 | CardAfterJoker1 | Card2AfterJoker1
+                       | CardBeforeJoker2 | Joker2 | CardAfterJoker2
+                       | Card2AfterJoker2 | SecondToLastCard | LastCard
+
+val cardPos = List.map (fn (x,y) => (x, y, vs y)) [(FirstCard, 1), (SecondCard, 2), (CardBeforeJoker1, noOfCards), (Joker1,noOfCards+1), (CardAfterJoker1, noOfCards+2), (Card2AfterJoker1, noOfCards+3), (CardBeforeJoker2, noOfCards+1), (Joker2, noOfCards+2), (CardAfterJoker2, noOfCards+3), (Card2AfterJoker2, noOfCards+4), (SecondToLastCard, noOfCards+1), (LastCard, noOfCards+2)]
+
 
 fun cutDeck () = ();
 
